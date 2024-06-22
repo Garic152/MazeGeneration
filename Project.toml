@@ -1,13 +1,7 @@
 name = "MazeGeneration"
-uuid = "69c593f6-09be-483e-a797-b209f583db7f"
-authors = ["Gruppe 43"]
+uuid = "3a74dfda-b192-4981-8ebd-1c5caf977391"
+authors = ["Linux <erictheiler15@gmail.com>"]
 version = "0.1.0"
 
 [deps]
-Test = "b77e0a4c-a3ab-5a33-86ab-337c1bb7b7d0"
-
-[extras]
-Test = ["Test"]
-
-[targets]
-test = ["Test"]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
