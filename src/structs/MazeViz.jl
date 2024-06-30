@@ -47,3 +47,8 @@ function visualize_maze(viz::MazeViz)::String #wir machen die Visualisierung mit
 end
 
 end
+
+
+# Einfache Tests: (müssen erst nach dem Randomizer gemacht werden)
+# maze(4, 4)
+# maze(10, 10)
