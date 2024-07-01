@@ -4,6 +4,7 @@ include(joinpath(@__DIR__, "..", "..", "src", "structs", "Maze.jl"))
 
 using .NodeModule: Node, neighbors
 using .MazeModule: Maze, set_index!, get_index
+using .MazeVizModule: MazeViz, visualize_maze #################### NEU
 
 @testset "Node Struct Tests" begin
     @testset "Node Creation" begin
@@ -71,3 +72,15 @@ end
         @test get_index(maze, 0, 0) == -1
     end
 end
+
+########################################## NEU #################################################
+@testset "MazeViz Struct Tests" begin
+    @testset "Maze Visualization" begin
+        maze = Maze(3, 3)
+        @test typeof(maze.visual) == MazeViz
+        visualization = visualize_maze(maze.visual)
+        @test typeof(visualization) == String
+        println(visualization)  ################ Optional: Zum Überprüfen der Ausgabe im Terminal
+    end
+end
+#################################################################################################
