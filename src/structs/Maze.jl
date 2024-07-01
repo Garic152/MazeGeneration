@@ -1,4 +1,5 @@
 include("Node.jl")
+include("MazeViz.jl") ############ ob es okay ist, dass wir Maze in MazeViz sowie auch MazeViz in Maze includen?
 
 module MazeModule
 export Maze
@@ -6,10 +7,11 @@ using ..NodeModule
 
 struct Maze
   nodes::Matrix{Node}
-  # #3: import MatrixVisualization File and uncomment
-  # visual::Union{MazeViz,Nothing}
-  visual::Nothing
-  path::Union{Vector{Node},Nothing}
+  # import MatrixVisualization ########### das verstehe ich nicht so ganz, ob wir das brauchen
+  visual::Union{MazeViz,Nothing}
+  path::Union{Vector{Node}, Nothing}
+  start::Union{Node, Nothing} ################## Neu: Beginn des Lösungspfades
+  goal::Union{Node, Nothing} ################### Neu: Ende des Lösungspfades
 
   Maze(height::Int, width::Int) = new(Matrix{Node}(undef, height, width), nothing, nothing)
 end
@@ -29,6 +31,16 @@ function get_index(maze::Maze, height::Int, width::Int)
   end
   return maze.nodes[height, width]
 end
+
+############################################## NEUES, WAS ES NICHT IN MAIN GIBT #####################################
+function Base.show(io::IO, maze::Maze)
+  if maze.visual != nothing
+    println(io, visualize_maze(maze.visual))
+  else
+    println(io, "Maze visualization not available.") ######### das ist ein Testsatz, später löschen
+  end
+end
+######################################################################################################################
 
 end
 
