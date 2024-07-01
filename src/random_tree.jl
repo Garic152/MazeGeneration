@@ -2,6 +2,9 @@ import Random
 
 include("structs/Node.jl")
 include("structs/Maze.jl")
+
+module random_tree_Module
+
 using ..NodeModule
 using ..MazeModule
 
@@ -88,4 +91,6 @@ function set_next_node!(node::Node, maze_matrix::Vector{Vector{Union{Nothing, No
         node.bottom_child = maze_matrix[node.position[1] + 1][node.position[2]];
         return node.bottom_child
     end
+end
+
 end
