@@ -88,7 +88,7 @@ function set_next_node!(node::Node, maze_matrix::Vector{Vector{Union{Nothing, No
         return node.node.child[3]
     else
         maze_matrix[node.position[1] + 1][node.position[2]] = Node([node.position[1] + 1, node.position[2]], [nothing, nothing, nothing, nothing]);
-        node.bottom_child = maze_matrix[node.position[1] + 1][node.position[2]];
+        node.child[4] = maze_matrix[node.position[1] + 1][node.position[2]];
         return node.node.child[4]
     end
 end
