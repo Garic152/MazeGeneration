@@ -8,25 +8,24 @@ using .MazeModule: Maze, set_index!, get_index
 @testset "Node Struct Tests" begin
     @testset "Node Creation" begin
         position = [1, 2]
-        node = Node(position, nothing, nothing, nothing, nothing)
+        node = Node(position, [nothing, nothing, nothing, nothing])
         @test node.position == position
-        @test node.left_child === nothing
-        @test node.right_child === nothing
-        @test node.top_child === nothing
-        @test node.bottom_child === nothing
+        for neighbor in node.neighbors
+            @test neighbor === nothing
+        end
     end
     @testset "Node Creation" begin
         position = [1, 1]
-        left_node = Node([0, 1], nothing, nothing, nothing, nothing)
-        right_node = Node([2, 1], nothing, nothing, nothing, nothing)
-        top_node = Node([1, 0], nothing, nothing, nothing, nothing)
-        bottom_node = Node([1, 2], nothing, nothing, nothing, nothing)
-        node = Node(position, left_node, right_node, top_node, bottom_node)
+        left_node = Node([0, 1], [nothing, nothing, nothing, nothing])
+        right_node = Node([2, 1], [nothing, nothing, nothing, nothing])
+        top_node = Node([1, 0], [nothing, nothing, nothing, nothing])
+        bottom_node = Node([1, 2], [nothing, nothing, nothing, nothing])
+        node = Node(position, [left_node, right_node, top_node, bottom_node])
 
         expected_node = [left_node, right_node, top_node, bottom_node]
         @test neighbors(node) == expected_node
 
-        partial_node = Node(position, nothing, nothing, top_node, bottom_node)
+        partial_node = Node(position, [nothing, nothing, top_node, bottom_node])
         expected_partial_node = [top_node, bottom_node]
         @test neighbors(partial_node) == expected_partial_node
     end
@@ -45,22 +44,22 @@ end
     end
     @testset "Set Index Success" begin
         maze = Maze(2, 2)
-        node = Node([2, 2], nothing, nothing, nothing, nothing)
+        node = Node([2, 2], [nothing, nothing, nothing, nothing])
         set_index!(maze, node)
         @test maze.nodes[2, 2] == node
     end
     @testset "Set Index Fail" begin
         maze = Maze(2, 2)
-        node1 = Node([2, 3], nothing, nothing, nothing, nothing)
-        node2 = Node([3, 2], nothing, nothing, nothing, nothing)
-        node3 = Node([0, 0], nothing, nothing, nothing, nothing)
+        node1 = Node([2, 3], [nothing, nothing, nothing, nothing])
+                              node2 = Node([3, 2], [nothing, nothing, nothing, nothing])
+                              node3 = Node([0, 0], [nothing, nothing, nothing, nothing])
         @test set_index!(maze, node1) == -1
         @test set_index!(maze, node2) == -1
         @test set_index!(maze, node3) == -1
     end
     @testset "Get Index Success" begin
         maze = Maze(2, 2)
-        node = Node([2, 2], nothing, nothing, nothing, nothing)
+        node = Node([2, 2], [nothing, nothing, nothing, nothing])
         set_index!(maze, node)
         @test get_index(maze, 2, 2) == node
     end
