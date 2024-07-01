@@ -13,7 +13,7 @@ struct Maze
   visual::Nothing
   path::Union{Vector{Node},Nothing}
 
-  Maze(height::Int, width::Int) = new(Matrix{Node}(undef, height, width), nothing, nothing)
+  # Maze(height::Int, width::Int) = new(Matrix{Node}(undef, height, width), nothing, nothing)
 end
 
 function set_index!(maze::Maze, node::Node)
