@@ -5,7 +5,9 @@ export Maze
 using ..NodeModule
 
 struct Maze
-  nodes::Matrix{Node}
+  # nodes::Matrix{Node}
+  nodes::Vector{Vector{Union{Nothing, Node}}}
+  
   # #3: import MatrixVisualization File and uncomment
   # visual::Union{MazeViz,Nothing}
   visual::Nothing
