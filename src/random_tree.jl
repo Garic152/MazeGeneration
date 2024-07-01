@@ -6,22 +6,16 @@ using ..NodeModule
 using ..MazeModule
 
 function maze(height::Int, width::Int)::Maze
+    # Das ist der eigentliche Konstruktor.
 
+    # Startet mit der Erzeugung der Matrix
     maze_matrix = [Union{Nothing,Node}[nothing for i in 1:height] for j in 1:width];
 
+    # Sucht erstmal eine randomizierte Wurzel
     root = Node( [rand(1:height), rand(1:width)], nothing, nothing, nothing, nothing);
     maze_matrix[root.position[1]][root.position[2]] = root;
 
-
-    # next_node = set_next_node!(root, maze_matrix);
-    # predecessor = next_node;
-    # while predecessor != root
-    #     predecessor = next_node;
-    #     next_node = set_next_node!(next_node, maze_matrix);
-    #     if next_node === nothing
-    #         next_node = predecessor;
-    #     end
-    # end
+    # Ruft die rekursive Funktion für die Labyrinth Erstellung auf
     maze_matrix = maze_matrix_recursive(maze_matrix, root);
 
     maze = Maze(maze_matrix, nothing, nothing);
@@ -30,7 +24,7 @@ function maze(height::Int, width::Int)::Maze
 end
 
 function maze_matrix_recursive(maze_matrix::Vector{Vector{Union{Nothing, Node}}}, node::Node)::Vector{Vector{Union{Nothing, Node}}}
-    
+    # Macht eine rekursive Version der Tiefensuche
     next_node = set_next_node!(node, maze_matrix);
     while next_node !== nothing
         maze_matrix = maze_matrix_recursive(maze_matrix, next_node);
@@ -41,7 +35,8 @@ function maze_matrix_recursive(maze_matrix::Vector{Vector{Union{Nothing, Node}}}
 
 end
 
-function availible_neighbors(node::Node, maze_matrix::Vector{Vector{Union{Nothing, Node}}})
+function available_neighbors(node::Node, maze_matrix::Vector{Vector{Union{Nothing, Node}}})
+    # Sucht mit der node und der Matrix alle möglichen Nachbarn. 
     neighbors = []
     if node.position[2] != 1
         if node.left_child === nothing && maze_matrix[node.position[1]][node.position[2] - 1] === nothing
@@ -67,8 +62,9 @@ function availible_neighbors(node::Node, maze_matrix::Vector{Vector{Union{Nothin
 end
 
 function set_next_node!(node::Node, maze_matrix::Vector{Vector{Union{Nothing, Node}}})::Union{Nothing, Node}
-
-    neighbors = availible_neighbors(node, maze_matrix);
+    # Sucht mit available_neighbors alle verfügbaren Nachbarn und wählt dann einen Nachbarn zufallig aus. Passt die Matrix und die Node auch dementsprechend an. Gibt nothing zurück falls die node keine Nachbarn hat.
+    
+    neighbors = available_neighbors(node, maze_matrix);
 
     if isempty(neighbors)
         return nothing
@@ -92,24 +88,4 @@ function set_next_node!(node::Node, maze_matrix::Vector{Vector{Union{Nothing, No
         node.bottom_child = maze_matrix[node.position[1] + 1][node.position[2]];
         return node.bottom_child
     end
-end
-
-# height = 3;
-# width = 3;
-
-# maze_matrix = [Union{Nothing,Node}[nothing for i in 1:height] for j in 1:width];
-# root = Node( [rand(1:height), rand(1:width)], nothing, nothing, nothing, nothing);
-# maze_matrix[root.position[1]][root.position[2]] = root;
-# println
-# println(maze_matrix)
-# maze_matrix[1][1] = Node( [1, 1], nothing, nothing, nothing, nothing)
-# println(maze_matrix)
-# list = availible_neighbors(maze_matrix[1][1], maze_matrix);
-# println(list);
-# list = [];
-# println(rand(list));
-
-mmaze = maze(5,5);
-for i in mmaze.nodes
-    println(i)
 end
