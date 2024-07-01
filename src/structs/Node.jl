@@ -1,7 +1,7 @@
 module NodeModule
 export Node, neighbors
 
-struct Node
+mutable struct Node
   position::Vector{Int}
   left_child::Union{Node,Nothing}
   right_child::Union{Node,Nothing}
