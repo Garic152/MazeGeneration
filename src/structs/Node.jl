@@ -1,28 +1,17 @@
 module NodeModule
 export Node, neighbors
 
-struct Node
-  position::Vector{Int}
-  left_child::Union{Node,Nothing}
-  right_child::Union{Node,Nothing}
-  top_child::Union{Node,Nothing}
-  bottom_child::Union{Node,Nothing}
+mutable struct Node
+  position::Vector{Int}                   # position: height, width
+  neighbors::Array{Union{Node, Nothing}} # right, bottom, left, top child
 end
 
 function neighbors(node::Node)
   neighbors = []
-
-  if node.left_child !== nothing
-    push!(neighbors, node.left_child)
-  end
-  if node.right_child !== nothing
-    push!(neighbors, node.right_child)
-  end
-  if node.top_child !== nothing
-    push!(neighbors, node.top_child)
-  end
-  if node.bottom_child !== nothing
-    push!(neighbors, node.bottom_child)
+  for neighbor in node.neighbors
+    if neighbor != nothing
+      push!(neighbors, neighbor)
+    end
   end
   return neighbors
 end
