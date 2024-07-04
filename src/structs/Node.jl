@@ -1,9 +1,9 @@
 module NodeModule
 export Node, neighbors
 
-struct Node
-  position::Vector{Int}
-  neighbors::Array{Union{Node, Nothing}} # left, right, top, bottom child
+mutable struct Node
+  position::Vector{Int}                   # position: height, width
+  neighbors::Array{Union{Node, Nothing}} # right, bottom, left, top child
 end
 
 function neighbors(node::Node)
