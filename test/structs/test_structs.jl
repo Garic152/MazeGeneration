@@ -1,9 +1,15 @@
 using Test
 include(joinpath(@__DIR__, "..", "..", "src", "structs", "Node.jl"))
 include(joinpath(@__DIR__, "..", "..", "src", "structs", "Maze.jl"))
+include(joinpath(@__DIR__, "..", "..", "src", "structs", "MazeViz.jl"))
+include(joinpath(@__DIR__, "..", "..", "src", "random_tree.jl"))
+include(joinpath(@__DIR__, "..", "..", "src", "MazeSolver.jl"))
 
 using .NodeModule: Node, neighbors
 using .MazeModule: Maze, set_index!, get_index
+using .MazeVizModule: MazeViz, visualize_maze, visualize_solution_path
+using .random_tree_Module: maze
+using .MazeSolverModule: solve
 
 @testset "Node Struct Tests" begin
     @testset "Node Creation" begin
@@ -68,5 +74,76 @@ end
         @test get_index(maze, 2, 3) == -1
         @test get_index(maze, 3, 2) == -1
         @test get_index(maze, 0, 0) == -1
+    end
+end
+
+@testset "Maze Generation and Visualization Tests" begin                                 # neu
+    @testset "Random Maze Generation" begin
+        random_maze = maze(5, 5)  # Generiere ein 5x5 Labyrinth
+        @test typeof(random_maze) == Maze
+        @test size(random_maze.nodes) == (5, 5)
+        visited_nodes = 0
+        for i in 1:5, j in 1:5
+            if random_maze.nodes[i, j] != nothing
+                visited_nodes += 1
+            end
+        end
+        @test visited_nodes == 25  # Alle Knoten sollten besucht sein
+    end
+    
+    @testset "Maze Visualization" begin
+        simple_maze = Maze(3, 3)
+        for i in 1:3, j in 1:3
+            set_index!(simple_maze, Node([i, j], [nothing, nothing, nothing, nothing]))
+        end
+        viz = MazeViz(simple_maze)
+        visualization = visualize_maze(simple_maze)
+        @test typeof(visualization) == String
+        println(visualization)  # Prüfe die Konsolenausgabe manuell
+    end
+end
+
+@testset "Maze Solver Tests" begin
+    @testset "Simple Maze Solution" begin
+        simple_maze = Maze(3, 3)
+        nodes = [Node([i, j], [nothing, nothing, nothing, nothing]) for i in 1:3, j in 1:3]
+        for i in 1:3, j in 1:3
+            set_index!(simple_maze, nodes[i, j])
+        end
+        
+        # Manuell Nachbarn setzen, um einfachen Weg zu erstellen
+        nodes[1, 1].neighbors = [nodes[1, 2], nothing, nothing, nothing]
+        nodes[1, 2].neighbors = [nodes[1, 3], nodes[1, 1], nothing, nothing]
+        nodes[1, 3].neighbors = [nothing, nodes[1, 2], nothing, nodes[2, 3]]
+        nodes[2, 3].neighbors = [nothing, nothing, nodes[1, 3], nothing]
+        
+        start = nodes[1, 1]
+        goal = nodes[2, 3]
+        path = solve(simple_maze, start, goal)
+        
+        @test length(path) > 0
+        @test path[1] == start
+        @test path[end] == goal
+        
+        # Visualisierung des Lösungspfads
+        viz_path = visualize_solution_path(simple_maze, path)
+        @test typeof(viz_path) == String
+        println(viz_path)  # Prüfe die Konsolenausgabe manuell
+    end
+    
+    @testset "Complex Maze Solution" begin
+        complex_maze = maze(5, 5)  # Generiere ein 5x5 Labyrinth
+        start = complex_maze.nodes[1, 1]
+        goal = complex_maze.nodes[5, 5]
+        path = solve(complex_maze, start, goal)
+        
+        @test length(path) > 0
+        @test path[1] == start
+        @test path[end] == goal
+        
+        # Visualisierung des Lösungspfads
+        viz_path = visualize_solution_path(complex_maze, path)
+        @test typeof(viz_path) == String
+        println(viz_path)
     end
 end
