@@ -6,10 +6,8 @@ using ..NodeModule
 
 struct Maze
   nodes::Matrix{Node}
-  # #3: import MatrixVisualization File and uncomment
-  # visual::Union{MazeViz,Nothing}
-  visual::Nothing
-  path::Union{Vector{Node},Nothing}
+  visual::Nothing  # PLatzhalter: später für MazeViz
+  path::Union{Vector{Node}, Nothing}
 
   Maze(height::Int, width::Int) = new(Matrix{Node}(undef, height, width), nothing, nothing)
 end
