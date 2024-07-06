@@ -3,7 +3,7 @@ export Node, neighbors
 
 mutable struct Node
   position::Vector{Int}                   # position: height, width
-  neighbors::Array{Union{Node, Nothing}} # left, right, top, bottom child
+  neighbors::Array{Union{Node, Nothing}}  # right, bottom, left, top child
 end
 
 function neighbors(node::Node)
