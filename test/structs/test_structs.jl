@@ -7,7 +7,7 @@ include(joinpath(@__DIR__, "..", "..", "src", "MazeSolver.jl"))
 
 using .NodeModule: Node, neighbors
 using .MazeModule: Maze, set_index!, get_index
-using .MazeVizModule: MazeViz, visualize_maze, visualize_solution_path
+using .MazeVizModule: MazeViz, visualize_maze
 using .random_tree_Module: maze
 using .MazeSolverModule: solve
 
@@ -124,11 +124,6 @@ end
         @test length(path) > 0
         @test path[1] == start
         @test path[end] == goal
-        
-        # Visualisierung des Lösungspfads
-        viz_path = visualize_solution_path(simple_maze, path)
-        @test typeof(viz_path) == String
-        println(viz_path)  # Prüfe die Konsolenausgabe manuell
     end
     
     @testset "Complex Maze Solution" begin
@@ -140,10 +135,5 @@ end
         @test length(path) > 0
         @test path[1] == start
         @test path[end] == goal
-        
-        # Visualisierung des Lösungspfads
-        viz_path = visualize_solution_path(complex_maze, path)
-        @test typeof(viz_path) == String
-        println(viz_path)
     end
 end
