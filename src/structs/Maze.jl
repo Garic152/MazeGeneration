@@ -37,5 +37,3 @@ function get_index(maze::Maze, height::Int, width::Int)
 end
 
 end
-
-

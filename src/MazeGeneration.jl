@@ -10,4 +10,5 @@ using .MazeVizModule
 using .MazeSolverModule
 using .random_tree_Module
 
-X = maze(2, 5)
+X = maze(30, 30)
+print(X)
