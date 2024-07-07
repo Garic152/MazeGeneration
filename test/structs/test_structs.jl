@@ -1,13 +1,3 @@
-using Test
-include(joinpath(@__DIR__, "..", "..", "src", "structs", "MazeViz.jl"))
-include(joinpath(@__DIR__, "..", "..", "src", "random_tree.jl"))
-
-using .NodeModule: Node, neighbors
-using .MazeModule: Maze, maze_empty, set_index!, get_index
-using .MazeVizModule: MazeViz, visualize_maze
-using .random_tree_Module: maze
-using .MazeSolverModule: solve
-
 @testset "Node Struct Tests" begin
     @testset "Node Creation" begin
         position = [1, 2]

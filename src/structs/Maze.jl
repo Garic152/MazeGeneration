@@ -1,18 +1,23 @@
-include("Node.jl")
-
 module MazeModule
-export Maze, maze_empty
-using ..NodeModule
+using ..NodeModule: Node
+export Maze, maze_empty, MazeViz, set_index!, get_index
 
-struct Maze
+mutable struct MazeViz
+  visual::String
+end
+
+
+mutable struct Maze
   nodes::Matrix{Node}
-  visual::Nothing  # PLatzhalter: später für MazeViz
+  visual::Union{Nothing,MazeViz}
   path::Union{Vector{Node},Nothing}
+  start::Union{Node,Nothing}
+  goal::Union{Node,Nothing}
 end
 
 
 function maze_empty(height::Int, width::Int)
-  return Maze(Matrix{Node}(undef, height, width), nothing, nothing)
+  return Maze(Matrix{Node}(undef, height, width), nothing, nothing, nothing, nothing)
 end
 
 function set_index!(maze::Maze, node::Node)

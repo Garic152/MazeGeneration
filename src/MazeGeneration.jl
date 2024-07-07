@@ -1,5 +1,17 @@
-module MazeGeneration
+include("structs/Node.jl")
+include("structs/Maze.jl")
+include("structs/MazeViz.jl")
+include("MazeSolver.jl")
+include("random_tree.jl")
 
-print("Hello World!")
+using .NodeModule
+using .MazeModule
+using .MazeVizModule
+using .MazeSolverModule
+using .random_tree_Module
 
-end
+X = maze(2, 2)
+
+print(X.start, "\n")
+print(X.goal, "\n")
+print(X.path)

@@ -1,14 +1,9 @@
-include(joinpath(@__DIR__, "..", "..", "src", "MazeSolver.jl"))
-
 module MazeVizModule
-export MazeViz, visualize_maze
-using ..MazeModule
+using ..MazeModule: Maze, MazeViz
+export visualize_maze
 
-struct MazeViz
-    maze::Maze
-end
 
-function visualize_maze(maze::Maze)::String     #wir machen die Visualisierung mit ASCII-Symbolen, deswegen ist der Output ein String
+function visualize_maze(maze::Maze)::MazeViz     #wir machen die Visualisierung mit ASCII-Symbolen, deswegen ist der Output ein String
     output = ""
     height, width = size(maze.nodes)            # nehme die Parameter aus dem struct Maze
     path_nodes = Set(maze.path)                 # für die Lösung
@@ -18,20 +13,24 @@ function visualize_maze(maze::Maze)::String     #wir machen die Visualisierung m
             if maze.nodes[i, j] in path_nodes   # wenn das Pfad ist, dann anders markieren
                 output *= " *"                  # mit * nämlich
             elseif maze.nodes[i, j] === nothing
-                output *= "██"                  # Wand
+                output *= "--"                  # Wand
             else
+
+
+
                 output *= "  "                  # Durchgang
             end
         end
         output *= "\n"
     end
-    return output
+
+    viz = MazeViz(output)
+    return viz
 end
 
-
-
-function Base.show(io::IO, viz::MazeViz)
-    print(io, visualize_maze(viz.maze))
+function Base.show(io::IO, maze::Maze)
+    viz = visualize_maze(maze)
+    print(io, viz.visual)
 end
 
 end

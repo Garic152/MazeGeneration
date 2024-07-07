@@ -13,13 +13,7 @@
   end
 
   @testset "Maze Visualization" begin
-    simple_maze = Maze(3, 3)
-    for i in 1:3, j in 1:3
-      set_index!(simple_maze, Node([i, j], [nothing, nothing, nothing, nothing]))
-    end
-    viz = MazeViz(simple_maze)
-    visualization = visualize_maze(simple_maze)
-    @test typeof(visualization) == String
-    println(visualization)  # Prüfe die Konsolenausgabe manuell
+    simple_maze = maze(3, 3)
+    @test typeof(simple_maze.visual) == MazeViz
   end
 end

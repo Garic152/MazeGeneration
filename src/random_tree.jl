@@ -1,28 +1,32 @@
 import Random
 
-include("structs/Maze.jl")
-
 module random_tree_Module
-
-using ..NodeModule
-using ..MazeModule
+using ..NodeModule: Node
+using ..MazeModule: Maze
+using ..MazeSolverModule: solve
+using ..MazeVizModule: visualize_maze
+export maze
 
 function maze(height::Int, width::Int)::Maze
     # Das ist der eigentliche Konstruktor.
 
     # Startet mit der Erzeugung der Matrix
-    # maze_matrix = [Union{Nothing,Node}[nothing for i in 1:width] for j in 1:height];
     maze_matrix = Matrix{Union{Nothing,Node}}(nothing, height, width)
-
-
+    
     # Sucht erstmal eine randomizierte Wurzel
-    root = Node([rand(1:height), rand(1:width)], [nothing, nothing, nothing, nothing])
-    maze_matrix[root.position[1], root.position[2]] = root
+    start = Node([rand(1:height), rand(1:width)], [nothing, nothing, nothing, nothing])
+    maze_matrix[start.position[1], start.position[2]] = start
 
     # Ruft die rekursive Funktion für die Labyrinth Erstellung auf
-    maze_matrix = maze_matrix_recursive(maze_matrix, root)
+    maze_matrix = maze_matrix_recursive(maze_matrix, start)
+    goal = maze_matrix[rand(1:height), rand(1:width)];
+    maze = Maze(maze_matrix, nothing, nothing, start, goal)
 
-    maze = Maze(maze_matrix, nothing, nothing)
+    maze.path = solve(maze, start, goal)
+
+    viz = visualize_maze(maze)
+
+    maze.visual = viz
 
     return maze
 end

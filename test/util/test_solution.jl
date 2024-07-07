@@ -1,10 +1,7 @@
 @testset "Maze Solver Tests" begin
   @testset "Simple Maze Solution" begin
-    simple_maze = Maze(3, 3)
+    simple_maze = maze(3, 3)
     nodes = [Node([i, j], [nothing, nothing, nothing, nothing]) for i in 1:3, j in 1:3]
-    for i in 1:3, j in 1:3
-      set_index!(simple_maze, nodes[i, j])
-    end
 
     # Manuell Nachbarn setzen, um einfachen Weg zu erstellen
     nodes[1, 1].neighbors = [nodes[1, 2], nothing, nothing, nothing]

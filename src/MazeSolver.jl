@@ -1,5 +1,3 @@
-include("structs/Maze.jl")
-
 module MazeSolverModule
 export solve
 
