@@ -1,6 +1,5 @@
 import Random
 
-include("structs/Node.jl")
 include("structs/Maze.jl")
 
 module random_tree_Module
