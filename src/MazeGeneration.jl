@@ -10,8 +10,5 @@ using .MazeVizModule
 using .MazeSolverModule
 using .random_tree_Module
 
-X = maze(2, 2)
-
-print(X.start, "\n")
-print(X.goal, "\n")
-print(X.path)
+X = maze(5, 5)
+print(X)
