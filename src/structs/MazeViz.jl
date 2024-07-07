@@ -2,7 +2,6 @@ module MazeVizModule
 using ..MazeModule: Maze, MazeViz
 export visualize_maze
 
-
 function visualize_maze(maze::Maze)::MazeViz     #wir machen die Visualisierung mit ASCII-Symbolen, deswegen ist der Output ein String
 
     height, width = size(maze.nodes)                # nehme die Parameter aus dem struct Maze
@@ -36,6 +35,7 @@ function visualize_maze(maze::Maze)::MazeViz     #wir machen die Visualisierung 
     viz = MazeViz(output)
     return viz
 end
+
 
 function Base.show(io::IO, maze::Maze)
     viz = visualize_maze(maze)

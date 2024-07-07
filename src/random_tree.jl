@@ -12,17 +12,17 @@ function maze(height::Int, width::Int)::Maze
 
     # Startet mit der Erzeugung der Matrix
     maze_matrix = Matrix{Union{Nothing,Node}}(nothing, height, width)
-    
+
     # Sucht erstmal eine randomizierte Wurzel
     start = Node([rand(1:height), rand(1:width)], [nothing, nothing, nothing, nothing])
     maze_matrix[start.position[1], start.position[2]] = start
 
     # Ruft die rekursive Funktion für die Labyrinth Erstellung auf
     maze_matrix = maze_matrix_recursive(maze_matrix, start)
-    goal = maze_matrix[rand(1:height), rand(1:width)];
+    goal = maze_matrix[rand(1:height), rand(1:width)]
     maze = Maze(maze_matrix, nothing, nothing, start, goal)
 
-    maze.path = solve(maze, start, goal)
+    maze.path = solve(maze)
 
     viz = visualize_maze(maze)
 
