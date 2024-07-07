@@ -1,4 +1,3 @@
-include("structs/Node.jl")
 include("structs/Maze.jl")
 
 module MazeSolverModule
