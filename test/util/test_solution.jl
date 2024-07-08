@@ -30,5 +30,17 @@
         @test correct_pos == generated_pos
       end
     end
+    
+    @testset "4x4 Maze with all possible goals" begin
+      test_maze = maze(4, 4)
+      for i = 1:4
+        for j = 1:4
+          maze.goal = maze.nodes[i,j]
+          solution = solve(maze)
+          @test solution[length(solution)]==maze.goal
+        end
+      end
+    end
+    
   end
 end
