@@ -1,31 +1,34 @@
-@testset "Maze Solver Tests" begin
-  @testset "Simple Maze Solution" begin
-    simple_maze = maze(3, 3)
-    nodes = [Node([i, j], [nothing, nothing, nothing, nothing]) for i in 1:3, j in 1:3]
-
-    # Manuell Nachbarn setzen, um einfachen Weg zu erstellen
-    nodes[1, 1].neighbors = [nodes[1, 2], nothing, nothing, nothing]
-    nodes[1, 2].neighbors = [nodes[1, 3], nodes[1, 1], nothing, nothing]
-    nodes[1, 3].neighbors = [nothing, nodes[1, 2], nothing, nodes[2, 3]]
-    nodes[2, 3].neighbors = [nothing, nothing, nodes[1, 3], nothing]
-
-    start = nodes[1, 1]
-    goal = nodes[2, 3]
-    path = solve(simple_maze, start, goal)
-
-    @test length(path) > 0
-    @test path[1] == start
-    @test path[end] == goal
+@testset "test_maze Solver Tests" begin
+  @testset "1x1 Maze" begin
+    test_maze = maze(1, 1)
+    @test length(test_maze.path) == 1
+    @test test_maze.path[1].position == [1, 1]
+    @test test_maze.path[1].neighbors == [nothing, nothing, nothing, nothing]
   end
+  @testset "2x2 Maze" begin
+    Random.seed!(12)
 
-  @testset "Complex Maze Solution" begin
-    complex_maze = maze(5, 5)  # Generiere ein 5x5 Labyrinth
-    start = complex_maze.nodes[1, 1]
-    goal = complex_maze.nodes[5, 5]
-    path = solve(complex_maze, start, goal)
+    test_maze = maze(2, 2)
+    @test length(test_maze.path) == 4
 
-    @test length(path) > 0
-    @test path[1] == start
-    @test path[end] == goal
+    solution_vector = [[1, 2], [2, 2], [2, 1], [1, 1]]
+
+    for (correct_pos, result) in zip(solution_vector, test_maze.path)
+      generated_pos = result.position
+      @test correct_pos == generated_pos
+    end
+    @testset "3x3 Maze" begin
+      Random.seed!(12345)
+
+      test_maze = maze(3, 3)
+      @test length(test_maze.path) == 7
+
+      solution_vector = [[3, 3], [3, 2], [3, 1], [2, 1], [2, 2], [1, 2], [1, 3]]
+
+      for (correct_pos, result) in zip(solution_vector, test_maze.path)
+        generated_pos = result.position
+        @test correct_pos == generated_pos
+      end
+    end
   end
 end

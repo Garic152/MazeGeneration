@@ -6,41 +6,27 @@ using ..MazeModule
 using ..MazeVizModule
 
 function it!(node::Node, current_neighbor::Int, goal::Node)::Vector{Node}
-    print("Current Node: ", node.position, "\n")
     if node.position == goal.position
-        print("GOAL FOUND at ", node.position, "!!!\n")
         return [node]
     end
     for i = 0:3
         neighbor = node.neighbors[(current_neighbor+i)%4+1]
         if neighbor !== nothing
-            print("---", node.position, " is branching into ", neighbor.position, "\n")
             x = it!(neighbor, (current_neighbor + 1) % 4 + 1, goal)
             if x == []
                 continue
             else
-                print("------", node.position, " found something!!!!\n")
                 return [node; x]
             end
         else
             continue
         end
     end
-
-    print("------", node.position, " found nothing :/\n")
     return []
 end
 
 function solve(maze::Maze)::Vector{Node}
-    print("Starting at: ", maze.start.position, "\n")
-    print("Looking for: ", maze.goal.position, "\n")
     solution = it!(maze.start, 1, maze.goal)
-
-    print("\nSolution:\n")
-    for element in solution
-        print(element.position)
-    end
-    print("\n")
     return solution
 end
 

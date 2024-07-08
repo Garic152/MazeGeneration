@@ -19,5 +19,9 @@ include("util/test_generation.jl")
   @testset "Visualization Tests" begin
     include("util/test_visualization.jl")
   end
+
+  @testset "Maze Solve Tests" begin
+    include("util/test_solution.jl")
+  end
 end
 
