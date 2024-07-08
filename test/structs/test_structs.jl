@@ -1,10 +1,3 @@
-using Test
-include(joinpath(@__DIR__, "..", "..", "src", "structs", "Node.jl"))
-include(joinpath(@__DIR__, "..", "..", "src", "structs", "Maze.jl"))
-
-using .NodeModule: Node, neighbors
-using .MazeModule: Maze, set_index!, get_index
-
 @testset "Node Struct Tests" begin
     @testset "Node Creation" begin
         position = [1, 2]
@@ -35,7 +28,7 @@ end
     # This only is a really basic test
     # #because at the time this code was written only task 1 got solved so far
     @testset "Maze Constructor" begin
-        empty_maze = Maze(1, 2)
+        empty_maze = maze_empty(1, 2)
         @test typeof(empty_maze.nodes) == Matrix{Node}
         @test size(empty_maze.nodes) == (1, 2)
     end
@@ -43,28 +36,28 @@ end
         # This is missing
     end
     @testset "Set Index Success" begin
-        maze = Maze(2, 2)
+        maze = maze_empty(2, 2)
         node = Node([2, 2], [nothing, nothing, nothing, nothing])
         set_index!(maze, node)
         @test maze.nodes[2, 2] == node
     end
     @testset "Set Index Fail" begin
-        maze = Maze(2, 2)
+        maze = maze_empty(2, 2)
         node1 = Node([2, 3], [nothing, nothing, nothing, nothing])
-                              node2 = Node([3, 2], [nothing, nothing, nothing, nothing])
-                              node3 = Node([0, 0], [nothing, nothing, nothing, nothing])
+        node2 = Node([3, 2], [nothing, nothing, nothing, nothing])
+        node3 = Node([0, 0], [nothing, nothing, nothing, nothing])
         @test set_index!(maze, node1) == -1
         @test set_index!(maze, node2) == -1
         @test set_index!(maze, node3) == -1
     end
     @testset "Get Index Success" begin
-        maze = Maze(2, 2)
+        maze = maze_empty(2, 2)
         node = Node([2, 2], [nothing, nothing, nothing, nothing])
         set_index!(maze, node)
         @test get_index(maze, 2, 2) == node
     end
     @testset "Get Index Fail" begin
-        maze = Maze(2, 2)
+        maze = maze_empty(2, 2)
         @test get_index(maze, 2, 3) == -1
         @test get_index(maze, 3, 2) == -1
         @test get_index(maze, 0, 0) == -1

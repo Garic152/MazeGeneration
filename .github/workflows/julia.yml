@@ -27,4 +27,4 @@ jobs:
         run: julia -e 'using Pkg; Pkg.instantiate()'
 
       - name: Run tests
-        run: julia -e 'using Pkg; Pkg.activate("."); Pkg.test()'
+        run: julia -e 'using Pkg; Pkg.activate("."); Pkg.add("Match"); Pkg.test()'
