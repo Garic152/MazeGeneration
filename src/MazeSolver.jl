@@ -1,3 +1,9 @@
+"""
+# MazeSolverModule
+
+This module provides functionality to solve any generated maze from random_tree.jl
+"""
+
 module MazeSolverModule
 export solve
 
@@ -6,6 +12,17 @@ using ..MazeModule
 using ..MazeVizModule
 
 function it!(node::Node, current_neighbor::Int, goal::Node)::Vector{Node}
+    """
+    Recursively steps into the given root node and assembles the solution vector
+
+    # Arguments
+    - `node::Node`: The root node of the tree.
+    - `current_neighbor::Int`: The index of the current neighbor to check.
+    - `goal::Node`: The goal node to reach.
+
+    # Returns
+    - `Vector{Node}`: A vector containing the individual node positions on the solution path.
+    """
     if node.position == goal.position
         return [node]
     end
@@ -26,43 +43,17 @@ function it!(node::Node, current_neighbor::Int, goal::Node)::Vector{Node}
 end
 
 function solve(maze::Maze)::Vector{Node}
+    """
+    Initializes the iterator function and returns its solution
+
+    # Arguments
+    - `maze::Maze`: The maze to solve
+
+    # Returns
+    - `Vector{Node}`: A vector containing the individual node positions on the solution path.
+    """
     solution = it!(maze.start, 1, maze.goal)
     return solution
 end
-
-
-# function next_move(node::Node, visited::Set{Node})::Union{Node,Nothing}
-#     for neighbor in neighbors(node)
-#         if neighbor !== nothing && !(neighbor in visited)
-#             return neighbor
-#         end
-#     end
-#     return nothing
-# end
-# 
-# function solve(maze::Maze, start::Node, goal::Node)::Vector{Node}
-#     path = []
-#     visited = Set{Node}()
-#     current = start
-#     push!(path, current)
-#     push!(visited, current)
-# 
-#     while current != goal
-#         next_node = next_move(current, visited)
-#         if next_node !== nothing
-#             push!(path, next_node)
-#             push!(visited, next_node)
-#             current = next_node
-#         else
-#             pop!(path)
-#             if isempty(path)
-#                 error("No path found from start to goal")
-#             end
-#             current = path[end]
-#         end
-#     end
-#     maze.path = path
-#     return path
-# end
 
 end
